@@ -192,6 +192,7 @@ namespace Blackjack
                         canHit = false;
                         hitButton.Enabled = false; hitButton.BackColor = SystemColors.ControlDark;
                         dealButton.Enabled = true; dealButton.BackColor = SystemColors.ButtonFace;
+                        stayButton.Enabled = false; stayButton.BackColor = SystemColors.ControlDark;
                         betUp.Enabled = true; betUp.BackColor = SystemColors.ButtonFace;
                         betDown.Enabled = true; betDown.BackColor = SystemColors.ButtonFace;
                     }
@@ -201,7 +202,6 @@ namespace Blackjack
                     handValueLabel.Text = handValue.ToString();
                     canHit = false;
                     hitButton.Enabled = false; hitButton.BackColor = SystemColors.ControlDark;
-                    dealButton.Enabled = true; dealButton.BackColor = SystemColors.ButtonFace;
                     betUp.Enabled = true; betUp.BackColor = SystemColors.ButtonFace;
                     betDown.Enabled = true; betDown.BackColor = SystemColors.ButtonFace;
                 } else
