@@ -26,6 +26,8 @@ namespace Blackjack
         int currentBet = 5;
         int[] betArray = {5, 10, 25, 50, 100, 250, 500, 1000};
         int accountValue = 100;
+
+        bool doubleDown = false;
         bool runOnce = true;
         bool dealerTurn = false;
         bool doHit = false;
@@ -67,7 +69,7 @@ namespace Blackjack
 
                 while (cardCounter < 3)
                 {
-                    
+
                     pickNumber = rand.Next(0, 13);
                     pickSuit = rand.Next(0, 4);
 
@@ -93,6 +95,11 @@ namespace Blackjack
                         handValue += pickNumber + 2;
                     }
                     cardCounter++;
+                }
+                if(handValue == 22)
+                {
+                    handValue -= 10;
+                    aceCount--;
                 }
 
                 while (dealerCardCounter < 2)
@@ -143,13 +150,16 @@ namespace Blackjack
                     canHit = true;
                     hitButton.Enabled = true; hitButton.BackColor = SystemColors.ButtonFace;
                     stayButton.Enabled = true; stayButton.BackColor = SystemColors.ButtonFace;
+                    doubledownButton.Enabled = true; doubledownButton.BackColor = SystemColors.ButtonFace;
                 }
                 
             }
 
-            if (doHit)
+            if (doHit || doubleDown)
             {
                 doHit = false;
+                doubleDown = false;
+
                 revealCardBase(cardCounter);
                 pickSuit = rand.Next(0, 4);
                 pickNumber = rand.Next(0, 13);
@@ -717,6 +727,8 @@ namespace Blackjack
 
         private void resetScreen()
         {
+            currentBet = betArray[currentBetIndex];
+            actualBetAmount.Text = "$" + currentBet;
             cardCounter = 1;
             dealerCardCounter = 1;
             handValue = 0;
@@ -786,6 +798,7 @@ namespace Blackjack
         {
             if(canHit)
             {
+                doubledownButton.Enabled = false; doubledownButton.BackColor = SystemColors.ControlDark;
                 doHit = true;
                 runGame();
             }
@@ -806,7 +819,12 @@ namespace Blackjack
 
         private void doubledownButton_Click(object sender, EventArgs e)
         {
-
+            actualBetAmount.Text = actualBetAmount.Text + " + $" + currentBet;
+            currentBet *= 2;
+            doubleDown = true;
+            doubledownButton.Enabled = false; doubledownButton.BackColor = SystemColors.ControlDark;
+            hitButton.Enabled = false; hitButton.BackColor = SystemColors.ControlDark;
+            runGame();
         }
 
         private void button8_Click(object sender, EventArgs e)
